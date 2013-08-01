@@ -9,25 +9,25 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-html2js');
-  
+
   // Project configuration.
   grunt.initConfig({
-    
+
     builddir: 'build',
-    
+
     pkg: grunt.file.readJSON('package.json'),
-    
+
     buildtag: '-dev-' + grunt.template.today('yyyy-mm-dd'),
-    
+
     meta: {
       banner: '/**\n' +
         ' * <%= pkg.description %>\n' +
         ' * @version v<%= pkg.version %><%= buildtag %>\n' +
         ' */'
     },
-    
+
     clean: [ '<%= builddir %>', 'tmp' ],
-    
+
     concat: {
       options: {
         banner: '<%= meta.banner %>\n(function (window, angular, undefined) {\n',
@@ -41,7 +41,7 @@ module.exports = function (grunt) {
         dest: '<%= builddir %>/<%= pkg.name %>.js'
       }
     },
-    
+
     html2js: {
       options: {
         module: '<%= pkg.name %>'
@@ -62,25 +62,25 @@ module.exports = function (grunt) {
         }
       }
     },
-    
+
     release: {
       files: ['<%= pkg.name %>.js', '<%= pkg.name %>.min.js'],
       src: '<%= builddir %>',
       dest: 'release'
     },
-    
+
     jshint: {
       all: ['Gruntfile.js', 'src/**/*.js', 'tests/**/*.js', '<%= builddir %>/<%= pkg.name %>.js'],
       options: {
         eqnull: true
       }
     },
-    
+
     delta: {
       files: ['Gruntfile.js', 'src/**/*.js', 'tests/**/*.js'],
       tasks: ['build', 'karma:debug:run']
     },
-    
+
     connect: {
       server: {}
     },
@@ -92,7 +92,7 @@ module.exports = function (grunt) {
         singleRun: true,
         browsers: ['PhantomJS']
       },
-      
+
       e2e: {
         configFile: 'config/karma_e2e.config.js',
         runnerPort: 10999,
@@ -110,7 +110,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('default', ['clean', 'build', 'karma:unit']);
-  grunt.registerTask('build', 'Perform a normal build', ['jshint', 'html2js', 'concat', 'uglify']);
+  grunt.registerTask('build', 'Perform a normal build', ['jshint', 'concat', 'uglify']);
   grunt.registerTask('dist', 'Perform a clean build and generate documentation', ['clean', 'build']);
   grunt.registerTask('release', 'Tag and perform a release', ['prepare-release', 'dist', 'perform-release']);
 
@@ -139,7 +139,7 @@ module.exports = function (grunt) {
     var version = grunt.config('pkg.version'), releasedir = grunt.config('builddir');
     promising(this,
       system('git add \'' + releasedir + '\'').then(function () {
-        return system('git commit -m \'release ' + version + '\'');  
+        return system('git commit -m \'release ' + version + '\'');
       }).then(function () {
         return system('git tag \'' + version + '\'');
       })

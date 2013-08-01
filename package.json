@@ -1,9 +1,9 @@
 {
-  "name": "angular-template-grunt",
+  "name": "angular-provider-engineio",
   "version": "0.1.0",
-  "description": "Template for angular bower modules with Grunt build process",
-  "main": "src/index.js",
-  "author": "James Huston <jhuston@redventures.com>",
+  "description": "Engine.io provider for AngularJS",
+  "main": "src/angular-privider-engineio.js",
+  "author": "James Huston <james@jameshuston.net>",
   "readmeFilename": "README.md",
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -25,6 +25,8 @@
     "karma-coffee-preprocessor": "0.0.2",
     "karma-phantomjs-launcher": "0.0.2",
     "karma": "~0.9.4",
-    "karma-jasmine": "0.0.2"
+    "karma-jasmine": "0.0.2",
+    "engine.io": "~0.6.3",
+    "engine.io-client": "~0.6.3"
   }
 }
