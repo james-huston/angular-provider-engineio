@@ -1,0 +1,16 @@
+{
+  "name": "angular-provider-engineio",
+  "version": "0.1.0",
+  "main": "src/angular-provider-engineio.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "angular": "~1.0.7"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.0.7"
+  }
+}
