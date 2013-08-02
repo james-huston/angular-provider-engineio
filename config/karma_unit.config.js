@@ -11,7 +11,9 @@ files = [
   JASMINE,
   JASMINE_ADAPTER,
   'bower_components/angular/angular.js',
-  'build/*.js',
+  'bower_components/angular-mocks/angular-mocks.js',
+  'vendor/engine.io.js',
+  'src/*.js',
   'tests/unit/**/*.spec.js'
 ];
 

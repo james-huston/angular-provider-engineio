@@ -1,6 +1,6 @@
 /**
  * Engine.io provider for AngularJS
- * @version v0.1.0-dev-2013-08-01
+ * @version v0.1.0-dev-2013-08-02
  */
 (function (window, angular, undefined) {
 
@@ -13,48 +13,43 @@ angular.module('angular-providers-engineio', [])
     };
 
     this.$get = function ($rootScope) {
+      var self = this;
+      var socket;
 
-      if (!this.socketServer) {
-        throw new Error('You must specify the socket server for angular-providers-engineio.');
+      var connect = function connect(socketServerUrl) {
+        if (!socketServerUrl) {
+          throw new Error('You must specify the socket server for angular-providers-engineio.');
+        }
+
+        self.setSocketServer(socketServerUrl);
+
+        socket = new eio.Socket(self.socketServer);
+      };
+
+      function getSocket() {
+        return socket;
       }
 
-      var socket = io.connect(this.socketServer);
-
-      // return socket;
-
-      var emitFunction = function (eventName, data, callback) {
-        socket.emit(eventName, data, function () {
+      function onFunction(type, callback) {
+        socket.on(type, function () {
+          var args = arguments;
           $rootScope.$apply(function () {
-            var args = arguments;
             if (callback) {
               callback.apply(socket, args);
             }
           });
         });
-      };
+      }
 
-      var onFunction = function (eventName, callback) {
-        socket.on(eventName, function () {
-          var args = arguments;
-          $rootScope.$apply(function () {
-            callback.apply(socket, args);
-          });
-        });
-      };
-
-      var onErrorFunction = function (callback) {
-        socket.socket.onError(function () {
-          $rootScope.$apply(function() {
-            callback.apply(socket, arguements);
-          });
-        });
-      };
+      function sendFunction(message) {
+        socket.send(message);
+      }
 
       return {
+        connect: connect,
+        getSocket: getSocket,
         on: onFunction,
-        emit: emitFunction,
-        onError: onErrorFunction,
-        socket: socket
+        send: sendFunction
       };
 
     };
