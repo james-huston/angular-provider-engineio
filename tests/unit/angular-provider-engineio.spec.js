@@ -44,6 +44,4 @@ describe('angular-providers-engineio provider', function () {
     });
   });
 
-  
-
 });

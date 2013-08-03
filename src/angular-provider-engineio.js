@@ -1,7 +1,15 @@
-
-angular.module('angular-providers-engineio', [])
+/**
+ * Angular-Provider-EngineIo
+ *
+ * Provider for connecting to and working with Engine.io
+ * from your angular app.
+ *
+ * @author James Huston <jhuston@redventures.com>
+ * @since 2013-08-02
+ */
+angular.module('angular-provider-engineio', [])
   .provider('engineio', function () {
-    this.socketServer = '';
+    this.socketServer = null;
 
     this.setSocketServer = function (socketServerUrl) {
       this.socketServer = socketServerUrl;
@@ -12,10 +20,7 @@ angular.module('angular-providers-engineio', [])
       var socket;
 
       var connect = function connect(socketServerUrl) {
-        if (!socketServerUrl) {
-          throw new Error('You must specify the socket server for angular-providers-engineio.');
-        }
-
+        socketServerUrl = socketServerUrl || null;
         self.setSocketServer(socketServerUrl);
 
         socket = new eio.Socket(self.socketServer);
